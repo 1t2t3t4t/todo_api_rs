@@ -26,13 +26,13 @@ async fn playground() -> Result<HttpResponse> {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let schema = Schema::default();
-    HttpServer::new(move || {
+    let server = HttpServer::new(move || {
         App::new()
             .data(schema.clone())
             .service(index)
             .service(resource("/").guard(Get()).to(playground))
     })
-    .bind("localhost:3000")?
-    .run()
-    .await
+    .bind("localhost:3000");
+    println!("Server is running");
+    server?.run().await
 }
