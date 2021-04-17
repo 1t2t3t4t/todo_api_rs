@@ -6,12 +6,13 @@ use actix_web::{
 };
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_actix_web::{Request, Response};
-use graphql::schema::Schema;
+use graphql::schema::TodoSchema;
 
 mod graphql;
+mod database;
 
 #[post("/")]
-async fn index(schema: Data<Schema>, req: Request) -> Response {
+async fn index(schema: Data<TodoSchema>, req: Request) -> Response {
     schema.execute(req.into_inner()).await.into()
 }
 
@@ -25,7 +26,7 @@ async fn playground() -> Result<HttpResponse> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let schema = Schema::default();
+    let schema = TodoSchema::default();
     let server = HttpServer::new(move || {
         App::new()
             .data(schema.clone())
