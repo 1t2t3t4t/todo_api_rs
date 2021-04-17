@@ -37,6 +37,7 @@
       <sourceFolder url="file://$MODULE_DIR$/target/debug/build/num-integer-818d7bd42c1bc975/out" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/debug/build/num-traits-5107073d2bca795a/out" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/db" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
