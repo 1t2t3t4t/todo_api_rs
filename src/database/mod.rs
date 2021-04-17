@@ -14,16 +14,9 @@ pub struct FileSystemDatabase {
 
 const FILE_PATH: &str = "db";
 
+#[derive(Debug)]
 enum Entity {
     Todo,
-}
-
-impl Entity {
-    fn name(&self) -> &str {
-        match self {
-            Self::Todo => "todo",
-        }
-    }
 }
 
 fn entity_file_path(entity: Entity) -> String {
@@ -31,7 +24,7 @@ fn entity_file_path(entity: Entity) -> String {
     if !p.exists() {
         std::fs::create_dir(p).expect("Cannot create dir that does not exist");
     }
-    format!("{}/{}.json", FILE_PATH, entity.name())
+    format!("{}/{:?}.json", FILE_PATH, entity)
 }
 
 impl FileSystemDatabase {
