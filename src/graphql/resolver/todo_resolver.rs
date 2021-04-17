@@ -1,4 +1,4 @@
-use crate::graphql::model::todo::Todo;
+use crate::model::todo::Todo;
 use crate::graphql::resolver::get_database;
 use async_graphql::{Context, Object, InputObject};
 use chrono::{Utc, DateTime};
@@ -16,6 +16,10 @@ impl TodoQuery {
     async fn count_todos<'a>(&self, ctx: &Context<'a>) -> usize {
         let db = get_database(ctx);
         db.get_all_todo().len()
+    }
+
+    async fn todo_with_rank<'a>(&self, ctx: &Context<'a>, rank: i32) -> Vec<Todo> {
+        get_database(ctx).get_todo_with_rank(rank)
     }
 }
 

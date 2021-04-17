@@ -1,6 +1,6 @@
 use async_graphql::Object;
 
-use crate::graphql::model::user::User;
+use crate::model::user::User;
 
 #[derive(Default)]
 pub struct UserQuery;

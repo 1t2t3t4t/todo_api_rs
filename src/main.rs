@@ -1,19 +1,23 @@
-use crate::database::{Database, FileSystemDatabase};
-use actix_web::{
-    guard::Get,
-    post,
-    web::{resource, Data},
-    App, HttpResponse, HttpServer, Result,
-};
-use async_graphql::extensions::ApolloTracing;
-use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
-use async_graphql::EmptySubscription;
-use async_graphql_actix_web::{Request, Response};
-use graphql::schema::TodoSchema;
 use std::sync::Arc;
+
+use actix_web::{
+    App,
+    guard::Get,
+    HttpResponse,
+    HttpServer, post, Result, web::{Data, resource},
+};
+use async_graphql::EmptySubscription;
+use async_graphql::extensions::ApolloTracing;
+use async_graphql::http::{GraphQLPlaygroundConfig, playground_source};
+use async_graphql_actix_web::{Request, Response};
+
+use graphql::schema::TodoSchema;
+
+use crate::database::{Database, FileSystemDatabase};
 
 mod database;
 mod graphql;
+pub mod model;
 
 #[post("/")]
 async fn index(schema: Data<TodoSchema>, req: Request) -> Response {

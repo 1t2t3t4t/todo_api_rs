@@ -1,9 +1,11 @@
-use crate::graphql::model::todo::Todo;
+use crate::model::todo::Todo;
 use std::sync::Mutex;
+use std::marker::PhantomData;
 
 pub trait Database: Send + Sync {
     fn save_todo(&self, todo: Todo);
     fn get_all_todo(&self) -> Vec<Todo>;
+    fn get_todo_with_rank(&self, rank: i32) -> Vec<Todo>;
 }
 
 #[derive(Default)]
@@ -63,5 +65,13 @@ impl Database for FileSystemDatabase {
 
     fn get_all_todo(&self) -> Vec<Todo> {
         self.get_todos()
+    }
+
+    fn get_todo_with_rank(&self, rank: i32) -> Vec<Todo> {
+        self.get_todos()
+            .iter()
+            .filter(|x| x.rank == rank)
+            .map(|x| x.clone())
+            .collect()
     }
 }
