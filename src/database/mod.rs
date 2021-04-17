@@ -26,12 +26,11 @@ impl Entity {
 }
 
 fn entity_file_path(entity: Entity) -> String {
-    let path = format!("{}/{}.json", FILE_PATH, entity.name());
     let p = std::path::Path::new(FILE_PATH);
     if !p.exists() {
         std::fs::create_dir(p).expect("Cannot create dir that does not exist");
     }
-    path
+    format!("{}/{}.json", FILE_PATH, entity.name())
 }
 
 impl FileSystemDatabase {
@@ -40,11 +39,7 @@ impl FileSystemDatabase {
         let file_content = std::fs::read_to_string(entity_file_path(Entity::Todo));
         if let Ok(todos_json) = file_content {
             let todos = serde_json::from_str::<Vec<Todo>>(&todos_json);
-            if let Ok(todos) = todos {
-                todos
-            } else {
-                vec![]
-            }
+            todos.unwrap_or_default()
         } else {
             vec![]
         }
