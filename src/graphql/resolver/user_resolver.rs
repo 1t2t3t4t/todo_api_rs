@@ -12,7 +12,7 @@ impl UserQuery {
             first_name: "Abc".to_string(),
             last_name: "Bcd".to_string(),
             age: 18,
-            bio: None
+            bio: None,
         }
     }
 }

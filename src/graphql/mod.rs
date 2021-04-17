@@ -1,3 +1,3 @@
 pub mod model;
-pub mod schema;
 pub mod resolver;
+pub mod schema;

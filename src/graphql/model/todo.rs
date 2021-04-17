@@ -1,9 +1,11 @@
 use async_graphql::SimpleObject;
-use chrono::{Utc, DateTime};
+use chrono::{DateTime, Utc};
 
-#[derive(SimpleObject)]
+use serde::{Deserialize, Serialize};
+
+#[derive(SimpleObject, Serialize, Deserialize, Clone)]
 pub struct Todo {
     pub name: String,
     pub description: Option<String>,
-    pub deadline: DateTime<Utc>
+    pub deadline: DateTime<Utc>,
 }
