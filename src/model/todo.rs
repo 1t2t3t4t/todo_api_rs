@@ -8,5 +8,5 @@ pub struct Todo {
     pub name: String,
     pub description: Option<String>,
     pub deadline: DateTime<Utc>,
-    pub rank: i32
+    pub rank: i32,
 }

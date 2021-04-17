@@ -1,7 +1,7 @@
-use crate::model::todo::Todo;
 use crate::graphql::resolver::get_database;
-use async_graphql::{Context, Object, InputObject};
-use chrono::{Utc, DateTime};
+use crate::model::todo::Todo;
+use async_graphql::{Context, InputObject, Object};
+use chrono::{DateTime, Utc};
 
 #[derive(Default)]
 pub struct TodoQuery;
@@ -40,7 +40,7 @@ impl Into<Todo> for SaveTodoInput {
             name: self.name,
             description: self.description,
             deadline: self.deadline,
-            rank: self.rank
+            rank: self.rank,
         }
     }
 }

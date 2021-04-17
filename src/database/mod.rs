@@ -1,6 +1,5 @@
 use crate::model::todo::Todo;
 use std::sync::Mutex;
-use std::marker::PhantomData;
 
 pub trait Database: Send + Sync {
     fn save_todo(&self, todo: Todo);

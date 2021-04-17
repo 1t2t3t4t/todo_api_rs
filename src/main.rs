@@ -1,14 +1,14 @@
 use std::sync::Arc;
 
 use actix_web::{
-    App,
     guard::Get,
-    HttpResponse,
-    HttpServer, post, Result, web::{Data, resource},
+    post,
+    web::{resource, Data},
+    App, HttpResponse, HttpServer, Result,
 };
-use async_graphql::EmptySubscription;
 use async_graphql::extensions::ApolloTracing;
-use async_graphql::http::{GraphQLPlaygroundConfig, playground_source};
+use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
+use async_graphql::EmptySubscription;
 use async_graphql_actix_web::{Request, Response};
 
 use graphql::schema::TodoSchema;
