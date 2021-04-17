@@ -12,6 +12,11 @@ impl TodoQuery {
         let db = get_database(ctx);
         db.get_all_todo()
     }
+
+    async fn count_todos<'a>(&self, ctx: &Context<'a>) -> usize {
+        let db = get_database(ctx);
+        db.get_all_todo().len()
+    }
 }
 
 #[derive(Default)]

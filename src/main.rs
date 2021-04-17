@@ -9,19 +9,15 @@ use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_actix_web::{Request, Response};
 use graphql::schema::TodoSchema;
 use std::sync::Arc;
+use async_graphql::EmptySubscription;
+use async_graphql::extensions::ApolloTracing;
 
 mod database;
 mod graphql;
 
 #[post("/")]
-async fn index(
-    schema: Data<TodoSchema>,
-    req: Request,
-    database: Data<Arc<dyn Database>>,
-) -> Response {
-    let mut req = req.into_inner();
-    req = req.data(database.get_ref().clone());
-    schema.execute(req).await.into()
+async fn index(schema: Data<TodoSchema>, req: Request) -> Response {
+    schema.execute(req.into_inner()).await.into()
 }
 
 async fn playground() -> Result<HttpResponse> {
@@ -34,14 +30,20 @@ async fn playground() -> Result<HttpResponse> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let schema = TodoSchema::default();
     let database: Arc<dyn Database> = Arc::new(FileSystemDatabase::default());
+    let schema = TodoSchema::build(
+        Default::default(),
+        Default::default(),
+        EmptySubscription::default()
+    )
+        .data(database.clone())
+        .extension(ApolloTracing)
+        .finish();
     let bind_addr = "0.0.0.0:3000";
 
     let server = HttpServer::new(move || {
         App::new()
             .data(schema.clone())
-            .data(database.clone())
             .service(index)
             .service(resource("/").guard(Get()).to(playground))
     })
