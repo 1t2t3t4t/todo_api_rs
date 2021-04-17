@@ -5,12 +5,12 @@ use actix_web::{
     web::{resource, Data},
     App, HttpResponse, HttpServer, Result,
 };
+use async_graphql::extensions::ApolloTracing;
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
+use async_graphql::EmptySubscription;
 use async_graphql_actix_web::{Request, Response};
 use graphql::schema::TodoSchema;
 use std::sync::Arc;
-use async_graphql::EmptySubscription;
-use async_graphql::extensions::ApolloTracing;
 
 mod database;
 mod graphql;
@@ -34,11 +34,11 @@ async fn main() -> std::io::Result<()> {
     let schema = TodoSchema::build(
         Default::default(),
         Default::default(),
-        EmptySubscription::default()
+        EmptySubscription::default(),
     )
-        .data(database.clone())
-        .extension(ApolloTracing)
-        .finish();
+    .data(database.clone())
+    .extension(ApolloTracing)
+    .finish();
     let bind_addr = "0.0.0.0:3000";
 
     let server = HttpServer::new(move || {

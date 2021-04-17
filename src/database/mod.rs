@@ -14,13 +14,13 @@ pub struct FileSystemDatabase {
 const FILE_PATH: &str = "db";
 
 enum Entity {
-    Todo
+    Todo,
 }
 
 impl Entity {
     fn name(&self) -> &str {
         match self {
-            Self::Todo => "todo"
+            Self::Todo => "todo",
         }
     }
 }
