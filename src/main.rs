@@ -36,6 +36,7 @@ async fn playground() -> Result<HttpResponse> {
 async fn main() -> std::io::Result<()> {
     let schema = TodoSchema::default();
     let database: Arc<dyn Database> = Arc::new(FileSystemDatabase::default());
+    let bind_addr = "0.0.0.0:3000";
 
     let server = HttpServer::new(move || {
         App::new()
@@ -44,7 +45,8 @@ async fn main() -> std::io::Result<()> {
             .service(index)
             .service(resource("/").guard(Get()).to(playground))
     })
-    .bind("localhost:3000");
-    println!("Server is running");
+    .bind(bind_addr);
+    println!("Server is running at {}", bind_addr);
+
     server?.run().await
 }
